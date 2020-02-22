@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+ <html>
+ <head>
+     <title>Map Search</title>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <!-- Add references to the Azure Maps Map control JavaScript and CSS files. -->
+     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.css" type="text/css">
+     <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"></script>
+     <!-- Add a reference to the Azure Maps Services Module JavaScript file. -->
+     <script src="https://atlas.microsoft.com/sdk/javascript/service/2/atlas-service.min.js"></script>
+     <script>
+     function GetMap(){
+var query =  'gasoline-station';
+var radius = 9000;
+var lat = 47.64452336193245;
+var lon = -122.13687658309935;
+searchURL.searchPOI(atlas.service.Aborter.timeout(10000), query, {
+    limit: 10,
+    lat: lat,
+    lon: lon,
+    radius: radius
+}).then((results) => {
+    // Extract GeoJSON feature collection from the response and add it to the datasource
+    var data = results.geojson.getFeatures();
+    datasource.add(data);
+    // set camera to bounds to show the results
+    map.setCamera({
+        bounds: data.bbox,
+        zoom: 10
+    });
+});
+        var map = new atlas.Map("myMap", {
+    //Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
+    authOptions: {
+        authType: 'subscriptionKey',
+        subscriptionKey: '<Your Azure Maps Key>'
+    }
+})
+         //Add Map Control JavaScript code here.
+     
+
+     //Wait until the map resources are ready.
+map.events.add('ready', function() {
+    //Create a data source and add it to the map.
+    datasource = new atlas.source.DataSource();
+    map.sources.add(datasource);
+    //Add a layer for rendering point data.
+    var resultLayer = new atlas.layer.SymbolLayer(datasource, null, {
+        iconOptions: {
+            image: 'pin-round-darkblue',
+            anchor: 'center',
+            allowOverlap: true
+        },
+        textOptions: {
+            anchor: "top"
+        }
+    });
+
+    map.layers.add(resultLayer);
+
+// Use SubscriptionKeyCredential with a subscription key
+var subscriptionKeyCredential = new atlas.service.SubscriptionKeyCredential(atlas.getSubscriptionKey());
+// Use subscriptionKeyCredential to create a pipeline
+var pipeline = atlas.service.MapsURL.newPipeline(subscriptionKeyCredential);
+// Construct the SearchURL object
+var searchURL = new atlas.service.SearchURL(pipeline);
+
+
+
+
+});
+}
+
+
+     </script>
+     <style>
+         html,
+         body {
+             width: 100%;
+             height: 100%;
+             padding: 0;
+             margin: 0;
+         }
+         #myMap {
+             width: 100%;
+             height: 100%;
+         }
+     </style>
+ </head>
+ <body onload="GetMap()">
+     <div id="myMap"></div>
+ </body>
+ </html>

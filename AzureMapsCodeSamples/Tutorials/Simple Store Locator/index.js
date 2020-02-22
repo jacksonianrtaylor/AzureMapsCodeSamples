@@ -24,7 +24,7 @@ function initialize() {
 		//Add your Azure Maps subscription key to the map SDK. Get an Azure Maps key at https://azure.com/maps
         authOptions: {
             authType: 'subscriptionKey',
-            subscriptionKey: '<Your Azure Maps Key>'
+            subscriptionKey: 'Ga-G4GpNTUR96g7TQ2Ty_tpecLk_sLMKojgjF3db4MU'
         }
     });
 
