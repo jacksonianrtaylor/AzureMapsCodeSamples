@@ -196,15 +196,15 @@ function loadStoreData() {
                         AddressLine: row[header['AddressLine']],
                         City: row[header['City']],
                         Municipality: row[header['Municipality']],
-                        AdminDivision: row[header['AdminDivision']],
+                       // AdminDivision: row[header['AdminDivision']],
                         Country: row[header['Country']],
                         PostCode: row[header['PostCode']],
                         Phone: row[header['Phone']],
                         StoreType: row[header['StoreType']],
-                        IsWiFiHotSpot: (row[header['IsWiFiHotSpot']].toLowerCase() === 'true') ? true : false,
-                        IsWheelchairAccessible: (row[header['IsWheelchairAccessible']].toLowerCase() === 'true') ? true : false,
-                        Opens: parseInt(row[header['Opens']]),
-                        Closes: parseInt(row[header['Closes']])
+                       // IsWiFiHotSpot: (row[header['IsWiFiHotSpot']].toLowerCase() === 'true') ? true : false,
+                       // IsWheelchairAccessible: (row[header['IsWheelchairAccessible']].toLowerCase() === 'true') ? true : false,
+                      //  Opens: parseInt(row[header['Opens']]),
+                       // Closes: parseInt(row[header['Closes']])
                     }));
                 }
             }
@@ -384,7 +384,7 @@ function getOpenTillTime(properties) {
         }
     }
 
-    return 'Open until ' + sTime;
+    //return 'Open until ' + sTime;
 }
 
 //When a user clicks on a result in the side panel, look up the shape by its id value and show popup.
