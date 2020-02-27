@@ -3,7 +3,7 @@
 var maxClusterZoomLevel = 11;
 
 //The URL to the store location data.
-var storeLocationDataUrl = 'Mhani Gingi Projects.txt';
+var storeLocationDataUrl = 'data/Mhani Gingi Projects.txt';
 
 //The URL to the icon image. 
 var iconImageUrl = 'images/CoffeeIcon.png';
