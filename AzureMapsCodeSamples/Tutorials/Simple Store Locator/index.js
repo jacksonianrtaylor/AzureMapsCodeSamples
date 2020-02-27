@@ -193,22 +193,14 @@ function loadStoreData() {
                 if (row.length >= numColumns) {
 
                     features.push(new atlas.data.Feature(new atlas.data.Point([parseFloat(row[header['Longitude']]), parseFloat(row[header['Latitude']])]), {
-                        AddressLine: row[header['Name of Project']],
-                        City: row[header['Facility of Project']],
-                        Municipality: row[header['Exact Location of Project']],
-                       // AdminDivision: row[header['AdminDivision']],
+                        Name: row[header['Name of Project']],
+                        Facility: row[header['Facility of Project']],
+                        Location: row[header['Exact Location of Project']],
                         When: row[header['When']],
                         Program: row[header['Program (Urban Agriculture, Artistry and Craftmanship, Tourism and Hospitality)']],
                         Beneficiaries: row[header['Beneficiaries (children, youth at risk, women, PWD, eldery)']],
                         Support: row[header['Support Provided by MG to Beneficiaries']],
-                        Impact: row[header['Impact on Beneficiaries']],
-                        BeneficiariesCount: row[header['Number of Beneficiaries Directly Impacted']],
                         Activities: row[header['Activities of Beneficiaries']],
-                        CommunityMembersImpacted: row[header['Number of Community Members Indirectly Impacted']],
-                       // IsWiFiHotSpot: (row[header['IsWiFiHotSpot']].toLowerCase() === 'true') ? true : false,
-                       // IsWheelchairAccessible: (row[header['IsWheelchairAccessible']].toLowerCase() === 'true') ? true : false,
-                      //  Opens: parseInt(row[header['Opens']]),
-                       // Closes: parseInt(row[header['Closes']])
                     }));
                 }
             }
