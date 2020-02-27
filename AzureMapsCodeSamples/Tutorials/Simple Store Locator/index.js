@@ -3,7 +3,7 @@
 var maxClusterZoomLevel = 11;
 
 //The URL to the store location data.
-var storeLocationDataUrl = 'data/ContosoCoffee.txt';
+var storeLocationDataUrl = 'Mhani Gingi Projects.txt';
 
 //The URL to the icon image. 
 var iconImageUrl = 'images/CoffeeIcon.png';
@@ -193,14 +193,18 @@ function loadStoreData() {
                 if (row.length >= numColumns) {
 
                     features.push(new atlas.data.Feature(new atlas.data.Point([parseFloat(row[header['Longitude']]), parseFloat(row[header['Latitude']])]), {
-                        AddressLine: row[header['AddressLine']],
-                        City: row[header['City']],
-                        Municipality: row[header['Municipality']],
+                        AddressLine: row[header['Name of Project']],
+                        City: row[header['Facility of Project']],
+                        Municipality: row[header['Exact Location of Project']],
                        // AdminDivision: row[header['AdminDivision']],
-                        Country: row[header['Country']],
-                        PostCode: row[header['PostCode']],
-                        Phone: row[header['Phone']],
-                        StoreType: row[header['StoreType']],
+                        When: row[header['When']],
+                        Program: row[header['Program (Urban Agriculture, Artistry and Craftmanship, Tourism and Hospitality)']],
+                        Beneficiaries: row[header['Beneficiaries (children, youth at risk, women, PWD, eldery)']],
+                        Support: row[header['Support Provided by MG to Beneficiaries']],
+                        Impact: row[header['Impact on Beneficiaries']],
+                        BeneficiariesCount: row[header['Number of Beneficiaries Directly Impacted']],
+                        Activities: row[header['Activities of Beneficiaries']],
+                        CommunityMembersImpacted: row[header['Number of Community Members Indirectly Impacted']],
                        // IsWiFiHotSpot: (row[header['IsWiFiHotSpot']].toLowerCase() === 'true') ? true : false,
                        // IsWheelchairAccessible: (row[header['IsWheelchairAccessible']].toLowerCase() === 'true') ? true : false,
                       //  Opens: parseInt(row[header['Opens']]),
@@ -240,6 +244,110 @@ function performSearch() {
         } 
     });
 }
+
+
+//added to create a optimal path to visit all locations of interest
+function compareSecondItem(a, b) {
+    if (a[1]<b[1]) {
+      return -1;
+    }
+    if (a[1]>b[1]) {
+      return 1;
+    }
+    // a must be equal to b
+    return 0;
+  }
+
+
+
+class Graph { 
+    // defining vertex array and 
+    // adjacent list 
+    constructor(noOfVertices) 
+    { 
+        this.noOfVertices = noOfVertices; 
+        this.AdjList = new Map(); 
+    } 
+  
+
+addVertex(v) 
+{ 
+    // initialize the adjacent list with a 
+    // null array 
+    this.AdjList.set(v, (int,[])); 
+} 
+
+
+addEdge(v, w, weight) 
+{ 
+    // get the list for vertex v and put the 
+    // vertex w denoting edge between v and w 
+    this.AdjList.get(v)[1].push(w);  
+    this.AdjList.get(v)[0] = weight;
+    // Since graph is undirected, 
+    // add an edge from w to v also 
+    this.AdjList.get(w)[1].push(v); 
+    this.AdjList.get(w)[0] = weight;
+}
+}
+
+
+function optimalPaths()
+{
+    var data = map.layers.getRenderedShapes(map.getCamera().bounds, [iconLayer]);  
+    var graph = new Graph();
+    
+
+    var counter =0;
+    var edges = [(int, int)];
+    var edgeWeights = [(int, float)];
+
+    //create full graph of the distances between locations of interest
+    //add all vertices;
+
+    data.forEach(function(){
+        graph.addVertex(counter)
+        counter++;
+    });
+    graph.addVertex(counter)
+
+    //add all edges
+    var counter2 = 0;
+    var counter4 =0;
+    graph.forEach(function(){
+        var counter3 = 0;
+        graph.forEach(function () {    
+            edges.push(counter2,counter3);
+            edgeWeights.push(counter4, pow((pow(shapeA.getCoordinates().x-ShapeB.getcoordinates().x,2.0)-(pow(ShapeB.getcoordinates().y-ShapeB.getcoordinates().y,2.0))),.5));
+            graph.addEdge(pow((pow(shapeA.getCoordinates().x-ShapeB.getcoordinates().x,2.0)-(pow(ShapeB.getcoordinates().y-ShapeB.getcoordinates().y,2.0))),.5),counter2, counter3)
+        counter3++;
+        counter4++;
+        });
+        counter2++;
+    });
+
+
+    
+    edgeWeights.sort(compareSecondItem);
+
+    //start with the edges with lower weights
+    var optimalGraph = new Graph();
+    var counter6 =0;
+    //add vertices
+    data.forEach(function(){
+        optimalGraph.addVertex(counter6);
+        counter6++;
+    });
+    optimalGraph.addVertex(counter6);
+
+
+    //add edges unless a cycle is created
+    optimalGraph.forEach(function(){
+
+    });
+}
+
+//end of flaire
 
 function setMapToUserLocation() {
     //Request the user's location.
