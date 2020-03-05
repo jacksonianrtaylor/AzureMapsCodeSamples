@@ -338,7 +338,6 @@ function optimalPaths()
 
     });
 }
-
 //end of flaire
 
 function setMapToUserLocation() {
@@ -433,13 +432,8 @@ function updateListItems() {
                 '</div>',
 
                 //Get a formatted address line 2 value that consists of City, Municipality, AdminDivision, and PostCode.
-                getAddressLine2(properties),
+                getinfo(properties),
                 '<br />',
-
-                //Convert the closing time into a nicely formated time.
-                getOpenTillTime(properties),
-                '<br />',
-
                 //Get the distance of the shape.
                 distances[shape.getId()],
                 ' miles away</div>');
@@ -450,41 +444,6 @@ function updateListItems() {
         //Scroll to the top of the list panel incase the user has scrolled down.
         listPanel.scrollTop = 0;
     }
-}
-
-//This converts a time in 2400 format into an AM/PM time or noon/midnight string.
-function getOpenTillTime(properties) {
-    var time = properties['Closes'];
-    var t = time / 100;
-
-    var sTime;
-
-    if (time === 1200) {
-        sTime = 'noon';
-    } else if (time === 0 || time === 2400) {
-        sTime = 'midnight';
-    } else {
-        sTime = Math.round(t) + ':';
-
-        //Get the minutes.
-        t = (t - Math.round(t)) * 100;
-
-        if (t === 0) {
-            sTime += '00';
-        } else if (t < 10) {
-            sTime += '0' + t;
-        } else {
-            sTime += Math.round(t);
-        }
-
-        if (time < 1200) {
-            sTime += ' AM';
-        } else {
-            sTime += ' PM';
-        }
-    }
-
-    //return 'Open until ' + sTime;
 }
 
 //When a user clicks on a result in the side panel, look up the shape by its id value and show popup.
@@ -537,36 +496,10 @@ function showPopup(shape) {
     var html = ['<div class="storePopup">'];
 
     html.push('<div class="popupTitle">',
-        properties['AddressLine'],
-        '<div class="popupSubTitle">',
-        getAddressLine2(properties),
+        properties['Name of Project'],
         '</div></div><div class="popupContent">',
-
-        //Convert the closing time into a nicely formated time.
-        getOpenTillTime(properties),
-
-        //Add the distance information.  
-        '<br/>', distance,
-        ' miles away',
-        '<br /><img src="images/PhoneIcon.png" title="Phone Icon"/><a href="tel:',
-        properties['Phone'],
-        '">', 
-        properties['Phone'],
-        '</a>'
+        getInfo(properties),
     );
-
-    if (properties['IsWiFiHotSpot'] || properties['IsWheelchairAccessible']) {
-        html.push('<br/>Amenities: ');
-
-        if (properties['IsWiFiHotSpot']) {
-            html.push('<img src="images/WiFiIcon.png" title="Wi-Fi Hotspot"/>');
-        }
-
-        if (properties['IsWheelchairAccessible']) {
-            html.push('<img src="images/WheelChair-small.png" title="Wheelchair Accessible"/>');
-        }
-    }
-
     html.push('</div></div>');
 
     //Update the content and position of the popup for the specified shape information.
@@ -580,22 +513,42 @@ function showPopup(shape) {
     popup.open(map);
 }
 
+/*
+Location: row[header['Exact Location of Project']],
+                        When: row[header['When']],
+                        Program: row[header['Program (Urban Agriculture, Artistry and Craftmanship, Tourism and Hospitality)']],
+                        Beneficiaries: row[header['Beneficiaries (children, youth at risk, women, PWD, eldery)']],
+                        Support: row[header['Support Provided by MG to Beneficiaries']],
+                        Activities: row[header['Activities of Beneficiaries']],
+*/
+
+
+
+
 //Creates an addressLine2 string consisting of City, Municipality, AdminDivision, and PostCode.
-function getAddressLine2(properties) {
-    var html = [properties['City']];
-
-    if (properties['Municipality']) {
-        html.push(', ', properties['Municipality']);
+function getInfo(properties) {
+    var html;
+    if (properties['Facility']) {
+        html.push(', ', properties['Facility']);
     }
-
-    if (properties['AdminDivision']) {
-        html.push(', ', properties['AdminDivision']);
+    if (properties['Location']) {
+        html.push(' ', properties['Location']);
     }
-
-    if (properties['PostCode']) {
-        html.push(' ', properties['PostCode']);
+    if (properties['When']) {
+        html.push(' ', properties['When']);
     }
-
+    if (properties['Program']) {
+        html.push(' ', properties['Program']);
+    }
+    if (properties['Beneficiaries']) {
+        html.push(' ', properties['Beneficiaries']);
+    }
+    if (properties['Support']) {
+        html.push(' ', properties['Support']);
+    }
+    if (properties['Activities']) {
+        html.push(' ', properties['Activities']);
+    }
     return html.join('');
 }
 
