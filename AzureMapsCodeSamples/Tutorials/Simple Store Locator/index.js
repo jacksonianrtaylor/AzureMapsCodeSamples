@@ -196,7 +196,7 @@ function loadStoreData() {
                         Name: row[header['Name of Project']],
                         Facility: row[header['Facility of Project']],
                         Location: row[header['Exact Location of Project']],
-                        When: row[header['When']],
+                        when: row[header['When']],
                         Program: row[header['Program (Urban Agriculture, Artistry and Craftmanship, Tourism and Hospitality)']],
                         Beneficiaries: row[header['Beneficiaries (children, youth at risk, women, PWD, eldery)']],
                         Support: row[header['Support Provided by MG to Beneficiaries']],
@@ -528,28 +528,29 @@ Location: row[header['Exact Location of Project']],
 //Creates an addressLine2 string consisting of City, Municipality, AdminDivision, and PostCode.
 function getInfo(properties) {
     var html;
-    if (properties['Facility']) {
-        html.push(' ', properties['Facility']);
+    if (properties['Facility of Project']) {
+        html.push(' ', properties['Facility of Project']);
     }
-    if (properties['Location']) {
-        html.push(' ', properties['Location']);
+    if (properties['Exact Location of Project']) {
+        html.push(' ', properties['Exact Location of Project']);
     }
     if (properties['When']) {
         html.push(' ', properties['When']);
     }
-    if (properties['Program']) {
-        html.push(' ', properties['Program']);
+    if (properties['Program (Urban Agriculture, Artistry and Craftmanship, Tourism and Hospitality)']) {
+        html.push(' ', properties['Program (Urban Agriculture, Artistry and Craftmanship, Tourism and Hospitality)']);
     }
-    if (properties['Beneficiaries']) {
-        html.push(' ', properties['Beneficiaries']);
+    if (properties['Beneficiaries (children, youth at risk, women, PWD, eldery)']) {
+        html.push(' ', properties['Beneficiaries (children, youth at risk, women, PWD, eldery)']);
     }
-    if (properties['Support']) {
-        html.push(' ', properties['Support']);
+    if (properties['Support Provided by MG to Beneficiaries']) {
+        html.push(' ', properties['Support Provided by MG to Beneficiaries']);
     }
-    if (properties['Activities']) {
-        html.push(' ', properties['Activities']);
+    if (properties['Activities of Beneficiaries']) {
+        html.push(' ', properties['Activities of Beneficiaries']);
     }
-    return html.join('');
+    return html
+    //.join('');
 }
 
 //Initialize the application when the page is loaded.
