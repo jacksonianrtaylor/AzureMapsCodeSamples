@@ -529,7 +529,7 @@ Location: row[header['Exact Location of Project']],
 function getInfo(properties) {
     var html;
     if (properties['Facility']) {
-        html.push(', ', properties['Facility']);
+        html.push(' ', properties['Facility']);
     }
     if (properties['Location']) {
         html.push(' ', properties['Location']);
